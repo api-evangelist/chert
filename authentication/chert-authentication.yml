@@ -1,0 +1,46 @@
+generated: '2026-07-18'
+method: searched
+source: https://docs.trychert.com/api/authentication
+docs: https://docs.trychert.com/api/authentication
+summary:
+  types: [http, hmac]
+  api_key_in: [header]
+  transport_requirement: TLS 1.2+
+schemes:
+- name: BearerToken
+  type: http
+  scheme: bearer
+  header: authorization
+  format: "Bearer <signing_secret>"
+  notes: >-
+    Simplest method for scripts, prototypes, and trusted server-to-server calls.
+    Signing secret is a 32-char hex value revealed once in the Chert console; server
+    uses constant-time comparison.
+- name: HMAC-SHA256
+  type: hmac
+  algorithm: HMAC-SHA256
+  header: x-chert-signature
+  header_format: "v1,<unix_seconds>,<hmac_hex>"
+  signing_string: "<unix_seconds>.<raw_body>"
+  raw_body_rules:
+  - POST uses the exact transmitted bytes (no re-serialization)
+  - GET uses an empty string (signature ends with a trailing dot)
+  replay_window_seconds: 300
+  recommended_for: exposed environments (edge functions, client-side code)
+required_headers:
+- name: x-chert-tenant
+  value: tenant_slug from registration
+  required_when: with HMAC signatures or for multi-tenant accounts
+- name: content-type
+  value: application/json
+  required_when: POST requests
+key_management:
+  issuance: Signing secret displayed once at registration via the Chert console
+  rotation: Requires contacting a Chert administrator (API keys page -> Reveal/rotate)
+  re_registration: Re-registering the same email returns the existing tenant without regeneration
+webhook_signing:
+  scheme: HMAC-SHA256
+  note: >-
+    Webhook deliveries use a separate per-subscription secret, computed identically as
+    HMAC-SHA256(subscription_secret, "<ts>.<raw_body>"). Do not use the API signing secret
+    to verify webhooks.
