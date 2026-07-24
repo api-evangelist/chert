@@ -1,0 +1,81 @@
+generated: '2026-07-18'
+method: searched
+source: https://docs.trychert.com/api/errors
+format: custom-json-envelope
+envelope:
+  shape: |
+    {
+      "success": false,
+      "error": {
+        "status": <http_status>,
+        "code": <integer>,
+        "message": "<human_readable>",
+        "retryable": <boolean>
+      },
+      "trace_id": "<string>"
+    }
+  optional_fields: [retry_after, attachment_index, allowed_effects]
+  notes: >-
+    POST /api/v1/send uses a flatter structure with status: "failed" and no trace_id.
+    Salesforce and HubSpot routes vary slightly but keep the core code/retryable scheme.
+    This is a custom envelope, NOT RFC 9457 application/problem+json.
+classes:
+- range: 1xxx
+  name: Request errors
+  http: [400, 409, 429]
+- range: 2xxx
+  name: Auth & resource errors
+  http: [401, 402, 403, 404]
+- range: 3xxx
+  name: Server / infrastructure errors
+  http: [500, 502, 503]
+- range: 4xxx
+  name: Delivery errors
+  http: [400, 422, 501, 502, 503]
+- range: 5xxx
+  name: Attachment errors
+  http: [400, 404]
+error_codes:
+- {code: 1001, http: 400, retryable: false, meaning: Missing required field}
+- {code: 1002, http: 400, retryable: false, meaning: Invalid field value or malformed attachments}
+- {code: 1003, http: 400, retryable: false, meaning: Invalid phone number (use E.164, e.g. +15555550100)}
+- {code: 1004, http: 400, retryable: false, meaning: Invalid JSON}
+- {code: 1005, http: 400, retryable: false, meaning: First message contains URLs in text/link parts (use rich_link)}
+- {code: 1006, http: 400, retryable: false, meaning: Too many parts (>10)}
+- {code: 1007, http: 429, retryable: true, meaning: Rate limited; respect retry_after header}
+- {code: 1008, http: 400, retryable: false, meaning: Consecutive text parts (merge adjacent text parts)}
+- {code: 1009, http: 400, retryable: false, meaning: Text exceeds length limit}
+- {code: 1010, http: 400, retryable: false, meaning: Unsupported messaging service (only imessage in v1)}
+- {code: 1011, http: 409, retryable: false, meaning: Resource type mismatch or attachment ref invalid}
+- {code: 1012, http: 409, retryable: false, meaning: Resource state invalid}
+- {code: 1013, http: 409, retryable: false, meaning: Contact has no usable phone number}
+- {code: 2001, http: 404, retryable: false, meaning: Tenant not found (check x-chert-tenant)}
+- {code: 2002, http: 404, retryable: false, meaning: Chat not found}
+- {code: 2003, http: 404, retryable: false, meaning: Message not found}
+- {code: 2004, http: 401, retryable: false, meaning: Invalid auth (bad signature/token)}
+- {code: 2005, http: 403, retryable: false, meaning: Forbidden (tenant suspended or insufficient permissions)}
+- {code: 2006, http: 400, retryable: false, meaning: Phone not assigned to tenant}
+- {code: 2007, http: 403, retryable: false, meaning: Email not verified}
+- {code: 2008, http: 402, retryable: false, meaning: Account limit reached}
+- {code: 2010, http: 403, retryable: false, meaning: Required OAuth integration not connected (Salesforce/HubSpot/Slack)}
+- {code: 2011, http: 404, retryable: false, meaning: Generic resource not found (icp/list/sheet/sequence/lead/message)}
+- {code: 2012, http: 401, retryable: false, meaning: Auth missing (no credentials supplied)}
+- {code: 2013, http: 401, retryable: false, meaning: Auth timestamp skew (fix clock, re-sign)}
+- {code: 2014, http: 400, retryable: false, meaning: OAuth state invalid (restart OAuth flow)}
+- {code: 3001, http: 500, retryable: true, meaning: Internal server error (exponential backoff)}
+- {code: 3002, http: 503, retryable: true, meaning: Delivery unavailable (short delay retry)}
+- {code: 3003, http: 500, retryable: false, meaning: Delivery service not configured (contact support)}
+- {code: 3004, http: 502, retryable: true, meaning: Delivery service error (short delay retry)}
+- {code: 4001, http: 502, retryable: true, meaning: Delivery failed (downstream rejected)}
+- {code: 4002, http: 503, retryable: true, meaning: All phone lines saturated for recipient; retry_after provided}
+- {code: 4098, http: 400, retryable: true, meaning: Unknown effect value (select from allowed_effects)}
+- {code: 4099, http: 422, retryable: false, meaning: Feature not supported in this context (e.g. edit past 15-min window)}
+- {code: 5001, http: 404, retryable: false, meaning: Attachment not found}
+- {code: 5002, http: 400, retryable: false, meaning: Attachment too large}
+- {code: 5003, http: 400, retryable: false, meaning: Unsupported MIME type}
+- {code: 5004, http: 400, retryable: false, meaning: Attachment not yet uploaded (complete PUT upload first)}
+retry_guidance:
+  retryable_false: Fix request/credentials/target; do not retry blindly
+  retryable_true_with_retry_after: Wait retry_after seconds (mirrored in Retry-After header)
+  retryable_true_without_retry_after: Exponential backoff (1s, 2s, 4s, ...)
+  safe_retries: Use idempotency_key on POST /api/v1/send and POST /api/v1/chats

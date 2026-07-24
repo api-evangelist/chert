@@ -1,0 +1,53 @@
+generated: '2026-07-18'
+method: searched
+source: https://docs.trychert.com/api/webhook-subscriptions
+spec_type: Webhooks
+docs:
+  webhook_subscriptions: https://docs.trychert.com/api/webhook-subscriptions
+  receiving_replies: https://docs.trychert.com/api/receiving-replies
+  events: https://docs.trychert.com/api/events
+transport:
+  delivery: HTTP POST to subscriber URL
+  streaming: SSE (server-sent events) available; polling and replay supported
+events:
+- name: message.received
+  description: Recommended real-time inbound reply event; inbound images/files arrive as media parts
+- name: lead_reply
+  description: Legacy summary-style reply notification (still available)
+- name: reaction.added
+  description: A tapback reaction was added
+- name: reaction.removed
+  description: A tapback reaction was removed
+subscription_operations:
+- {op: create, method: POST, path: /api/v1/webhook-subscriptions, note: auto-generates a per-subscription secret}
+- {op: list, method: GET, path: /api/v1/webhook-subscriptions, note: secret excluded}
+- {op: retrieve, method: GET, path: "/api/v1/webhook-subscriptions/{id}"}
+- {op: update, method: PATCH, path: "/api/v1/webhook-subscriptions/{id}", note: modify url, events, version, or active status}
+- {op: delete, method: DELETE, path: "/api/v1/webhook-subscriptions/{id}"}
+event_filtering:
+  field: events
+  semantics: exact-string match; omit events or send [] to subscribe to all events
+signature_verification:
+  algorithm: HMAC-SHA256
+  signing_string: "<unix_ts>.<raw_body>"
+  secret: per-subscription secret (shown once at creation)
+  headers:
+  - name: x-webhook-signature
+    format: "v1,<timestamp>,<hex>"
+    note: legacy
+  - name: x-webhook-signature
+    format: "t=<timestamp>,v1=<hex>"
+    note: modern
+  window_seconds: 300
+  implementation_notes:
+  - capture raw bytes before JSON parsing
+  - verify against exact transmitted body
+delivery_behavior:
+  '2xx': marked delivered
+  '4xx': not retried
+  '5xx_or_unreachable': up to 3 attempts with exponential backoff
+  dev_target: 'https://dev-inbox stored locally without an outbound POST'
+  multiple_subscriptions: each receives independent delivery attempts
+replay:
+  op: POST /api/v1/events/{id}/replay
+  target_one: add ?subscription_id=... to target a single subscription

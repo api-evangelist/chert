@@ -1,0 +1,47 @@
+generated: '2026-07-18'
+method: searched
+source: https://docs.trychert.com/llms.txt
+docs: https://docs.trychert.com/api/overview
+authentication:
+  styles: [bearer, hmac-sha256]
+  tenant_header: x-chert-tenant
+  see: authentication/chert-authentication.yml
+idempotency:
+  supported: true
+  mechanism: request-body field
+  field: idempotency_key
+  scope: safe retries on write operations
+  operations:
+  - POST /api/v1/send
+  - POST /api/v1/chats
+  source: https://docs.trychert.com/api/errors
+error_envelope:
+  shape: custom JSON (success/error{status,code,message,retryable}/trace_id)
+  trace_field: trace_id
+  format: not-rfc9457
+  see: errors/chert-error-codes.yml
+rate_limiting:
+  signaled_by:
+  - error code 1007 (HTTP 429)
+  - retry_after response field
+  - Retry-After response header
+request_tracing:
+  field: trace_id
+  location: top-level of error/response envelope
+versioning:
+  scheme: uri-path
+  current: v1
+  base_url: https://console.trychert.com/api/v1
+  see: lifecycle/chert-lifecycle.yml
+message_model:
+  text_part_field: value
+  first_message: text-only, no URLs in text/link parts (use rich_link part instead)
+  followup_send_shape: '{ "message": { "parts": [...] } }'
+  max_parts_per_message: 10
+  rich_link_part: '{ "type": "rich_link", "url": "https://...", optional: [title, summary, image_url, icon_url] }'
+  attachments: upload then reference a media part; parallel_attachments:true groups multiple images
+  phone_format: E.164
+webhooks:
+  signing: HMAC-SHA256 over "<ts>.<raw_body>" with per-subscription secret
+  replay: POST /api/v1/events/{id}/replay
+  see: asyncapi/chert-webhooks.yml

@@ -1,0 +1,12 @@
+generated: '2026-07-18'
+method: searched
+note: >-
+  Probed the .well-known discovery surface on the primary hosts. None returned 200 as of
+  2026-07-18; recorded as valid negative results (no WellKnown/SecurityTxt pointer wired).
+hosts:
+- host: https://www.trychert.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+- host: https://trychert.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}

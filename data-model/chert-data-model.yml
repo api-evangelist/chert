@@ -1,0 +1,40 @@
+generated: '2026-07-18'
+method: derived
+source: https://docs.trychert.com/llms.txt
+note: >-
+  Entity graph derived from the documented Messaging API surface (no OpenAPI published).
+  Relationships inferred from path structure and documented references.
+entities:
+- name: tenant
+  description: Account/workspace scope; identified by tenant_slug via x-chert-tenant
+- name: phone_number
+  description: Sender line assigned to a tenant
+  relationships:
+  - {type: belongs_to, target: tenant}
+- name: chat
+  description: A 1:1 or group (2-31 recipient) conversation thread
+  relationships:
+  - {type: belongs_to, target: tenant}
+  - {type: has_many, target: message, via: chat_id}
+- name: message
+  description: A message with ordered parts (text value, media, rich_link)
+  relationships:
+  - {type: belongs_to, target: chat, via: chat_id}
+  - {type: has_many, target: attachment, via: media_part}
+  - {type: has_many, target: reaction, via: message_id}
+- name: attachment
+  description: Uploaded media referenced by a media part; bytes at /attachments/{id}/content
+  relationships:
+  - {type: belongs_to, target: tenant}
+- name: reaction
+  description: Tapback reaction on a message (added/removed)
+  relationships:
+  - {type: belongs_to, target: message, via: message_id}
+- name: webhook_subscription
+  description: Registered endpoint with per-subscription secret and events filter
+  relationships:
+  - {type: belongs_to, target: tenant}
+- name: event
+  description: Delivered/stored event (message.received, reaction.added/removed, lead_reply)
+  relationships:
+  - {type: belongs_to, target: tenant}

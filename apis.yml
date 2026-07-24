@@ -1,7 +1,28 @@
 aid: chert
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/chert.png
 name: Chert
-description: Chert is a company surfaced as a portfolio company of y-combinator and added to the API Evangelist
-  network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: >-
+  Chert is iMessage infrastructure for reaching people at scale. Its Messaging API lets
+  teams programmatically send, receive, route, and observe real iMessage conversations —
+  blue-bubble threads from verified numbers with typing indicators, tapback reactions,
+  reply context, multi-recipient group threads, SMS fallback, file attachments, rich-link
+  previews, one-time location pins, and delivery receipts. Chert also ships native
+  integrations for Salesforce, HubSpot, and Slack, plus webhook subscriptions and an event
+  stream (message.received, reaction.added/removed) for real-time inbound replies. Auth is
+  bearer token or HMAC-SHA256 request signing; writes support an idempotency_key. Chert is a
+  Y Combinator (Spring 2026) company based in the San Francisco Bay Area.
 url: https://raw.githubusercontent.com/api-evangelist/chert/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -11,12 +32,84 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-18'
 tags:
 - Company
-apis: []
+- Messaging
+- iMessage
+- Communications
+- Conversational
+- Webhooks
+- CRM Integration
+- API
+apis:
+- name: Chert Messaging API
+  description: >-
+    Programmatic send/receive/route over iMessage — 1:1 and group chats, attachments,
+    rich links, tapbacks, typing indicators, location pins, webhook subscriptions and events.
+  humanURL: https://docs.trychert.com/api/overview
+  baseURL: https://console.trychert.com/api/v1
+  tags:
+  - Messaging
+  - iMessage
+  - Webhooks
+  properties:
+  - type: Documentation
+    url: https://docs.trychert.com
+  - type: APIReference
+    url: https://docs.trychert.com/api/overview
+  - type: Quickstart
+    url: https://docs.trychert.com/api/quickstart
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+common:
+- type: DeveloperPortal
+  url: https://console.trychert.com
+- type: Documentation
+  url: https://docs.trychert.com
+- type: APIReference
+  url: https://docs.trychert.com/api/overview
+- type: GettingStarted
+  url: https://docs.trychert.com/quickstart
+- type: SignUp
+  url: https://console.trychert.com
+- type: Support
+  url: https://www.trychert.com/contact
+- type: Blog
+  url: https://www.trychert.com/blog
+- type: GitHubOrganization
+  url: https://github.com/cherthq
+- type: TermsOfService
+  url: https://www.trychert.com/terms
+- type: PrivacyPolicy
+  url: https://www.trychert.com/privacy
+- type: LLMsTxt
+  url: llms/chert-llms.txt
+- type: Authentication
+  url: authentication/chert-authentication.yml
+- type: ErrorCatalog
+  url: errors/chert-error-codes.yml
+- type: Conventions
+  url: conventions/chert-conventions.yml
+- type: Idempotency
+  url: conventions/chert-conventions.yml
+- type: Webhooks
+  url: asyncapi/chert-webhooks.yml
+- type: Lifecycle
+  url: lifecycle/chert-lifecycle.yml
+- type: MCPServer
+  url: mcp/chert-mcp.yml
+- type: Sandbox
+  url: sandbox/chert-sandbox.yml
+- type: DataModel
+  url: data-model/chert-data-model.yml
+- type: DomainSecurity
+  url: security/chert-domain-security.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

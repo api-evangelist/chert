@@ -1,0 +1,24 @@
+generated: '2026-07-18'
+method: searched
+source: https://docs.trychert.com/api/overview
+versioning:
+  scheme: uri-path
+  current: v1
+  base_url: https://console.trychert.com/api/v1
+  docs: https://docs.trychert.com/api/overview
+  notes: >-
+    "Stable public API caveats" section documents the supported v1 shapes and the
+    documented-but-legacy paths (lead_reply summary event vs message.received).
+deprecation:
+  policy_url: null
+  sunset_header: false
+  legacy_surfaces:
+  - lead_reply event superseded by message.received (still available)
+sla:
+  url: null
+  uptime_target: null
+status_page: null
+probe_notes:
+  status_subdomain: 'https://status.trychert.com/ did not resolve (2026-07-18)'
+  changelog: 'https://docs.trychert.com/changelog returned 404 (2026-07-18)'
+deprecated_operations: []

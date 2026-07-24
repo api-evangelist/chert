@@ -1,0 +1,51 @@
+# Chert docs
+
+> Chert is the messaging layer between modern go-to-market systems and iMessage. This docs site covers the Messaging API plus Salesforce, HubSpot, and Slack integrations.
+
+## Start here
+
+- [Introduction](https://docs.trychert.com/introduction): Choose API, Salesforce, HubSpot, or Slack.
+- [Quickstart](https://docs.trychert.com/quickstart): Path selector and shortest API smoke test.
+- [Usage examples](https://docs.trychert.com/api/usage-examples): Copy common API flows.
+
+## Messaging API
+
+- [Overview](https://docs.trychert.com/api/overview): API model, stable capabilities, and caveats.
+- [Quickstart](https://docs.trychert.com/api/quickstart): First API send from the Chert console.
+- [Authentication](https://docs.trychert.com/api/authentication): Bearer and HMAC request signing.
+- [Sending](https://docs.trychert.com/api/sending): `POST /api/v1/send` for simple 1:1 text sends.
+- [Send a location](https://docs.trychert.com/api/locations): `POST /api/v1/locations` for one-time location pins on enabled sender lines.
+- [Create a chat](https://docs.trychert.com/api/chats/create): `POST /api/v1/chats`.
+- [Create a group](https://docs.trychert.com/api/group-chats/create): `POST /api/v1/chats` with 2-31 recipients in `to`.
+- [Send a message](https://docs.trychert.com/api/chats/send-message): `POST /api/v1/chats/{id}/messages`.
+- [List messages](https://docs.trychert.com/api/chats/list-messages): `GET /api/v1/chats/{id}/messages`.
+- [Mark read](https://docs.trychert.com/api/chats/mark-read): `POST /api/v1/chats/{id}/mark-read` with no request body.
+- [Typing indicator](https://docs.trychert.com/api/chats/typing): `POST /api/v1/chats/{id}/typing`.
+- [Attachments](https://docs.trychert.com/api/attachments): Upload, then send a `media` part.
+- [Phone numbers](https://docs.trychert.com/api/phone-numbers): Sender numbers available to your tenant.
+- [Webhook subscriptions](https://docs.trychert.com/api/webhook-subscriptions): Create, list, update, and delete webhook endpoints.
+- [Receiving replies](https://docs.trychert.com/api/receiving-replies): `message.received`, signatures, retries, SSE.
+- [Events](https://docs.trychert.com/api/events): Polling, streaming, replay, and dev inbox.
+- [React to a message](https://docs.trychert.com/api/messages/react): Standard tapbacks.
+- [Errors](https://docs.trychert.com/api/errors): Error code reference.
+
+## Integrations
+
+- [Salesforce](https://docs.trychert.com/salesforce/overview): Managed 2GP package for Lead, Contact, and Account records.
+- [HubSpot](https://docs.trychert.com/hubspot/overview): OAuth app for contact sidebar sends, workflow actions, and contact-created automation.
+- [Slack](https://docs.trychert.com/slack/overview): Reply triage and channel operations.
+
+## Stable public API caveats
+
+- Text message parts use `value`, not `text`.
+- Follow-up chat sends use `{ "message": { "parts": [...] } }`.
+- Use `/api/v1/chats/{id}/messages` when `{id}` is a chat id; use `/api/v1/messages/{id}/react` when `{id}` is a message id.
+- Rich-link preview parts use a single public shape: `{ "type": "rich_link", "url": "https://..." }`. Optional fields are `title`, `summary`, `image_url`, and `icon_url`.
+- Location sharing is one-time only through `POST /api/v1/locations` on enabled sender lines; it is not Find My or ongoing Live Location sharing.
+- Group chats are created with a text-only first message through `POST /api/v1/chats`; send media and rich links afterward through `POST /api/v1/chats/{id}/messages`.
+- Use `parallel_attachments: true` on `POST /api/v1/chats/{id}/messages` for multiple uploaded image attachments in one grouped iMessage; this is documented under Attachments.
+- `message.received` is the recommended real-time reply event. `lead_reply` remains available for legacy summary notifications.
+- Inbound images and files arrive as `media` parts in `message.received` payloads; fetch bytes with `GET /api/v1/attachments/{attachment_id}/content`.
+- Webhook subscription `events` filters are exact strings. Omit `events` or send `[]` for all events.
+- Verify webhook deliveries with the per-subscription secret over `"<ts>.<raw_body>"`; do not use the API signing secret.
+- Replay stored events with `POST /api/v1/events/{id}/replay`; add `?subscription_id=...` to target one subscription.

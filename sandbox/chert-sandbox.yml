@@ -1,0 +1,22 @@
+generated: '2026-07-18'
+method: searched
+source: https://docs.trychert.com/api/quickstart
+console:
+  url: https://console.trychert.com
+  note: >-
+    API keys (32-char hex signing secret) are issued from the console API keys page via
+    "Reveal"; the secret is shown in full only once at provisioning.
+dev_inbox:
+  target: https://dev-inbox
+  behavior: >-
+    A webhook subscription pointed at the special https://dev-inbox URL stores events
+    locally without making an outbound POST — used for local testing of event handling.
+event_tooling:
+  replay: POST /api/v1/events/{id}/replay (re-deliver stored events; ?subscription_id=... to target one)
+  streaming: SSE stream + polling + replay documented under /api/events
+test_values:
+  phone_format_example: '+15555550100'
+  note: >-
+    Chert does not publish a distinct test-vs-live key prefix scheme; a single signing
+    secret per tenant is used. No magic test card/number range is published beyond E.164
+    example formatting. Do not invent test credentials.
