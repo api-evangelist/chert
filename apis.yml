@@ -39,6 +39,14 @@ tags:
 - iMessage
 - Communications
 - Conversational
+- Webhook
+- CRM Integration
+tags_raw:
+- Company
+- Messaging
+- iMessage
+- Communications
+- Conversational
 - Webhooks
 - CRM Integration
 - API
@@ -50,6 +58,10 @@ apis:
   humanURL: https://docs.trychert.com/api/overview
   baseURL: https://console.trychert.com/api/v1
   tags:
+  - Messaging
+  - iMessage
+  - Webhook
+  tags_raw:
   - Messaging
   - iMessage
   - Webhooks
