@@ -91,6 +91,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Website
+  url: https://www.trychert.com/
 - type: DeveloperPortal
   url: https://console.trychert.com
 - type: Documentation
