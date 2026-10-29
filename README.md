@@ -64,6 +64,105 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Chert is a company surfaced as a portfolio company of y-combinator and added to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+Chert is iMessage infrastructure for reaching people at scale. Its Messaging API lets teams programmatically send, receive, route, and observe real iMessage conversations — blue-bubble threads from verified numbers with typing indicators, tapback reactions, reply context, multi-recipient group threads, SMS fallback, file attachments, rich-link previews, one-time location pins, and delivery receipts. Chert also ships native integrations for Salesforce, HubSpot, and Slack, plus webhook subscriptions and an event stream (message.received, reaction.added/removed) for real-time inbound replies. Auth is bearer token or HMAC-SHA256 request signing; writes support an idempotency_key. Chert is a Y Combinator (Spring 2026) company based in the San Francisco Bay Area.
 
-Backed by: y-combinator
+**Areas:** Company · Messaging · iMessage · Communications · Webhook · CRM Integration
+
+## Chert on APIs.io
+
+Everything profiled for Chert is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/chert/](https://apis.io/providers/chert/)** — or go straight to one of the APIs or properties below.
+
+### APIs (1)
+
+- [Chert Messaging API](https://apis.io/apis/chert/chert-messaging-api/) — Programmatic send/receive/route over iMessage — 1:1 and group chats, attachments, rich links, tapbacks, typing indicators, location pins, webhook…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Chert Webhooks](https://apis.io/asyncapis/chert/chert-webhooks/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [chert](https://apis.io/servers/chert/chert/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Chert Authentication](https://apis.io/security/chert/chert-authentication/)
+- [Chert Domain Security](https://apis.io/security/chert/chert-domain-security/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.trychert.com/)
+- [Documentation](https://docs.trychert.com)
+- [Getting started](https://docs.trychert.com/quickstart)
+- [API reference](https://docs.trychert.com/api/overview)
+- [Sign up](https://console.trychert.com)
+- [Support](https://www.trychert.com/contact)
+- [Blog](https://www.trychert.com/blog)
+- [Terms of service](https://www.trychert.com/terms)
+- [Privacy policy](https://www.trychert.com/privacy)
+- [GitHub](https://github.com/cherthq)
+
+## API Evangelist rating
+
+**Kin Score 34.3** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 39.0 |
+| Contract governance | 0.0 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 54.8 |
+| Access clarity | 21.1 |
+
+**Agent readiness 25.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | documented (partial credit) |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | yes |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 19.6** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/chert/](https://apis.io/providers/chert/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Chert: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/chert/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
